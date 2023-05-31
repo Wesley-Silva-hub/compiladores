@@ -1,11 +1,4 @@
-#IMPLEMENTACAO DO LEXICO
+palavras_reservadas = ["if", "else", "while", "for", "switch", "case", "break", "continue", "return", "def", "class", "import", "from", "as", "try", "except", "finally", "raise", "assert", "global", "nonlocal", "with", "yield", "lambda", "True", "False", "None"]
 
-arquivo = open('/home/josewesley/projetos/compiladores/entrada.txt', 'r')
-conteudo = arquivo.read()
-arquivo.close()
-
-for i in range(len(conteudo)):
-    caractere = conteudo[i]
-    print(caractere)
-        
-        
+for palavra in palavras_reservadas:
+    print(palavra)

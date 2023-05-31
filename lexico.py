@@ -1,53 +1,75 @@
-#IMPLEMENTACAO DO LEXICO
-
 arquivo = open('/home/josewesley/projetos/compiladores/entrada.txt', 'r')
 conteudo = arquivo.read()
 arquivo.close()
 token = ""
+estado = 1
+tokens = []
+palavras_reservadas = ["if", "else", "while", "for", "switch", "case", "break", "continue", "return", "def", "class", "import", "from", "as", "try", "except", "finally", "raise", "assert", "global", "True", "False"]
+digitos = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9]
+simbolos = ["!", "@", "#", "$", "%", "&", "*", "(", ")", "-", "+", "=", "{", "}", "[", "]", "|", ":", ";", "'", "\"", "<", ">", ",", ".", "?", "/", "~", "`"]
+
+#FALTA REFAZER O AUTOMATO PARA SO UM GRANDAO E VER OS ESTADOS FINAIS
+
+
 
 for i in range(len(conteudo)):
     caractere = conteudo[i]
-    estado = 1
-    token = token + caractere
-    #aqui comeca o automato de identificador
+
+    if caractere == " ":
+        if token != "":
+            tokens.append(token)
+            token = ""
+        continue
+
+    token += caractere
+
     if estado == 1 and caractere.isalpha():
         estado = 2
 
-    elif estado == 2 and caractere == '_':
+    elif caractere == '_' and estado == 2:
         estado = 4
     
-    elif estado == 2 and caractere == '.':
+    elif caractere == '.' and estado == 2:
         estado = 6
 
-    elif estado == 2 and caractere.isalpha():
-        estado = 2
-        
-    elif estado == 2 and (caractere.isalpha() or caractere.isnumeric()):
+    elif caractere.isalpha() and estado == 2:
         estado = 3
-
-    elif estado == 3 and (caractere.isalpha() or caractere.isnumeric()):
+        
+    elif (caractere.isalpha() or caractere.isnumeric()) and estado == 3:
         estado = 3
 
     elif estado == 4 and (caractere.isalpha() or caractere.isnumeric()):
         estado = 5
 
-    elif estado == 5 and (caractere.isalpha() or caractere.isnumeric()):
+    elif (caractere.isalpha() or caractere.isnumeric()) and estado == 5:
         estado = 5
         
-    elif estado == 6 and caractere.isalpha():
+    elif caractere.isalpha() and estado == 6:
         estado = 7
         
-    elif estado == 7 and caractere.isalpha():
+    elif caractere.isalpha() and estado == 7:
         estado = 7
         
     else:
-        estado = -1  # Estado inválido
+        if estado == 2 or estado == 3 or estado == 5 or estado == 7:
+            tokens.append(token)
+        token = ""
+        estado = -1  # Definir estado como -1 quando nenhuma condição é atendida
 
-if  estado == 2 or estado == 3 or estado == 5 or estado == 7:
+if estado == 2 or estado == 3 or estado == 5 or estado == 7:
+    if token != "":
+        tokens.append(token)
     print("Cadeia reconhecida")
-    #print(estado)
-    print(f"O token: " + token + " é um identificador")
-else:
-    print("Cadeia não reconhecida")
-    #print(estado)
-    print(token)
+    for token in tokens:
+        if token in palavras_reservadas:
+            print("PL: " + token)
+        elif token in simbolos:
+            print("SIMBOLO: " + token)
+        elif token in digitos:
+            print("DIGITO: " + token)
+        else:
+            print("ID: " + token)
+    else:
+        print("Cadeia não reconhecida")
+        #print(estado)
+   
