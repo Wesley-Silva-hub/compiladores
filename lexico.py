@@ -4,7 +4,7 @@ arquivo.close()
 token = ""
 estado = 1
 tokens = []
-palavras_reservadas = ["if", "else", "while", "for", "switch", "case", "break", "continue", "return", "def", "class", "import", "from", "as", "try", "except", "finally", "raise", "assert", "global", "True", "False"]
+palavras_reservadas = ["if", "else", "then", "while", "for", "switch", "case", "break", "continue", "return", "def", "class", "import", "from", "as", "try", "except", "finally", "raise", "assert", "global", "True", "False"]
 digitos = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9]
 simbolos = ["!", "@", "#", "$", "%", "&", "*", "(", ")", "-", "+", "=", "{", "}", "[", "]", "|", ":", ";", "'", "\"", "<", ">", ",", ".", "?", "/", "~", "`"]
 
@@ -15,17 +15,16 @@ simbolos = ["!", "@", "#", "$", "%", "&", "*", "(", ")", "-", "+", "=", "{", "}"
 for i in range(len(conteudo)):
     caractere = conteudo[i]
 
-    if caractere == " ":
-        if token != "":
-            tokens.append(token)
-            token = ""
-        continue
+
+    if estado == -1:
+        estado = 1
+   
 
     token += caractere
 
     if estado == 1 and caractere.isalpha():
         estado = 2
-
+        
     elif caractere == '_' and estado == 2:
         estado = 4
     
@@ -59,7 +58,7 @@ for i in range(len(conteudo)):
 if estado == 2 or estado == 3 or estado == 5 or estado == 7:
     if token != "":
         tokens.append(token)
-    print("Cadeia reconhecida")
+    #print("Cadeia reconhecida")
     for token in tokens:
         if token in palavras_reservadas:
             print("PL: " + token)
@@ -69,7 +68,9 @@ if estado == 2 or estado == 3 or estado == 5 or estado == 7:
             print("DIGITO: " + token)
         else:
             print("ID: " + token)
-    else:
-        print("Cadeia não reconhecida")
-        #print(estado)
-   
+else:
+    #if estado == -1:
+        #    tokens.append(token)
+        #token = ""
+        #estado = -1  # Definir estado como -1 quando nenhuma condição é atendida
+        print("token invalido")
