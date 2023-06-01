@@ -15,11 +15,11 @@ simbolos = ["!", "@", "#", "$", "%", "&", "*", "(", ")", "-", "+", "=", "{", "}"
 for i in range(len(conteudo)):
     caractere = conteudo[i]
 
-
+    
     if estado == -1:
         estado = 1
    
-
+    
     token += caractere
 
     if estado == 1 and caractere.isalpha():
@@ -52,25 +52,28 @@ for i in range(len(conteudo)):
     else:
         if estado == 2 or estado == 3 or estado == 5 or estado == 7:
             tokens.append(token)
-        token = ""
-        estado = -1  # Definir estado como -1 quando nenhuma condição é atendida
-
+            token = ""
+        else:
+            estado = -1  # Definir estado como -1 quando nenhuma condição é atendida
 if estado == 2 or estado == 3 or estado == 5 or estado == 7:
     if token != "":
         tokens.append(token)
     #print("Cadeia reconhecida")
-    for token in tokens:
-        if token in palavras_reservadas:
-            print("PL: " + token)
-        if token in simbolos:
-            print("SIMBOLO: " + token)
-        if token in digitos:
-            print("DIGITO: " + token)
-        else:
-            print("ID: " + token)
 else:
     if estado == -1:
         #    tokens.append(token)
         #token = ""
         #estado = -1  # Definir estado como -1 quando nenhuma condição é atendida
         print("token invalido")
+
+
+for token in tokens:
+    token = token.strip()
+    if token in palavras_reservadas:
+        print("PL: " + token)
+    elif token in simbolos:
+        print("SIMBOLO: " + token)
+    elif token in digitos:
+        print("DIGITO: " + token)
+    else:
+        print("ID: " + token)
