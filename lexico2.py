@@ -14,7 +14,10 @@ simbolos = ["!", "@", "#", "$", "%", "&", "*", "(", ")", "-", "+", "=", "{", "}"
 
 for i in range(len(conteudo)):
 
-   
+    if conteudo[i] == ' ':
+        tokens.append(token)
+        token = ''
+        continue
         
     caractere = conteudo[i]
     token += caractere
@@ -102,9 +105,10 @@ for i in range(len(conteudo)):
     elif estado == 27 and caractere == '/':
         estado = 28
     else:
-       
+        if estado in [2, 3, 5, 7, 8, 9, 10, 11, 12, 13, 14, 15, 17, 18, 24, 28]:
+            tokens.append(token)
+            token = ''
         
-        token = token
     
 if estado in [2, 3, 5, 7, 8, 9, 10, 11, 12, 13, 14, 15, 17, 18, 24, 28]:
     tokens.append(token)
