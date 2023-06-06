@@ -4,6 +4,8 @@ arquivo.close()
 token = ""
 estado = 1
 tokens = []
+conteudo_modificado = ""
+
 palavras_reservadas = ["if", "else", "then", "while", "for", "switch", "case", "break", "continue", "return", "def", "class", "import", "from", "as", "try", "except", "finally", "raise", "assert", "global", "True", "False"]
 digitos = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9]
 simbolos = ["!", "@", "#", "$", "%", "&", "*", "(", ")", "-", "+", "=", "{", "}", "[", "]", "|", ":", ";", "'", "\"", "<", ">", ",", ".", "?", "/", "~", "`"]
@@ -15,11 +17,16 @@ simbolos = ["!", "@", "#", "$", "%", "&", "*", "(", ")", "-", "+", "=", "{", "}"
 for i in range(len(conteudo)):
     caractere = conteudo[i]
 
+    if caractere.isspace() and i < len(conteudo) - 1:
+        conteudo_modificado += conteudo[i + 1]
+    else:
+        conteudo_modificado += caractere
     
+            
     if estado == -1:
         estado = 1
    
-    
+
     token += caractere
 
     if estado == 1 and caractere.isalpha():
@@ -55,6 +62,7 @@ for i in range(len(conteudo)):
             token = ""
         else:
             estado = -1  # Definir estado como -1 quando nenhuma condição é atendida
+            tokens = []
 if estado == 2 or estado == 3 or estado == 5 or estado == 7:
     if token != "":
         tokens.append(token)
@@ -65,8 +73,10 @@ else:
         #token = ""
         #estado = -1  # Definir estado como -1 quando nenhuma condição é atendida
         print("token invalido")
+        tokens = []
 
-
+print(tokens)
+print(estado)
 for token in tokens:
     token = token.strip()
     if token in palavras_reservadas:
