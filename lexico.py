@@ -21,7 +21,6 @@ for i in range(len(conteudo)):
    
     
     token += caractere
-
     if estado == 1 and caractere.isalpha():
         estado = 2
         
