@@ -52,6 +52,10 @@ for i in range(len(conteudo)):
     elif estado == 7 and caractere.isalpha():
         estado = 7
         #token += caractere
+
+
+
+
     elif estado == 1 and caractere == '<':
         estado = 8
         #token += caractere
@@ -93,6 +97,12 @@ for i in range(len(conteudo)):
         #token += caractere
     elif estado == 17 and caractere.isnumeric():
         estado = 17
+
+
+
+
+
+
         #token += caractere
     elif estado == 17 and caractere == ',':
         estado = 16
@@ -103,6 +113,10 @@ for i in range(len(conteudo)):
     elif estado == 15 and caractere.isnumeric():
         estado = 15
         #token += caractere
+
+
+
+        
     elif estado == 1 and caractere == '@':
         estado = 20
         #token += caractere
