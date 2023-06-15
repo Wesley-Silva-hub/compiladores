@@ -13,23 +13,15 @@ palavras_reservadas = ["if", "else", "then", "while", "for", "switch", "case", "
 digitos = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9]
 simbolos = ['!', '"', '#', '$', '%', '&', "'", '(', ')', '*', '+', ',', '-', '.', '/', ':', ';', '<', '=', '>', '?', '@', '[', '\\', ']', '^', '_', '`', '{', '|', '}', '~']
 
-ult_caractere_espaco = False 
 
 for i in range(len(conteudo)):
     
     caractere = conteudo[i]   
     
-    if caractere == ' ' or caractere == '\n':
-        if ult_caractere_espaco:
-            continue
-        ult_caractere_espaco = True
-        if token:
-            tokens.append(token)
-            token = ""
+    if caractere == ' ':
+        tokens.append(token)
+        token = ""
         continue
-
-    ult_caractere_espaco = False
-    
 
     if estado == 1:
         if caractere.isalpha():
@@ -84,7 +76,11 @@ for i in range(len(conteudo)):
             token += caractere
         else:
             print(token)
+            tokens.append(token)
+            token = ""
             token += caractere
+            tokens.append(token)
+            token = ""
             estado = 1
 
     elif estado == 3:
@@ -93,7 +89,7 @@ for i in range(len(conteudo)):
             token += caractere
         else:
             print(token)
-            tokens.append(token)
+            
             token = ""
             token += caractere
             tokens.append(token)
@@ -376,6 +372,6 @@ if estado in [2, 3, 5, 7, 8, 9, 10, 11, 12, 13, 14, 15, 17, 18, 24, 28]:
   
 else:
     print(estado)
-    #token += caractere
-    #tokens.append(token)
+    token += caractere
+    tokens.append(token)
 print(tokens)

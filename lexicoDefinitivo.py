@@ -2,19 +2,36 @@ arquivo = open('/home/josewesley/projetos/compiladores/entrada.txt', 'r')
 conteudo = arquivo.read()
 arquivo.close()
 token = ""
+pl = ""
+id = ""
+digito = ""
+simbolo = ""
 estado = 1
 tokens = []
 conteudo_modificado = ""
-simbolos_outros = ['!', '@', '#', '$', '%', '&', '*', '(', ')', '_', '=', '`', '~', '[', ']', '{', '}', '|', '\\', ':', ';', "'", '"', ',', '.', '?']
+simbolos_outros = ["!", "#", "$", "%", "&", "(", ")", "=", "{", "}", "[", "]", "|", ":", ";", "'", "\"", ">", ",", ".", "?", "~", "`"]
 palavras_reservadas = ["if", "else", "then", "while", "for", "switch", "case", "break", "continue", "return", "def", "class", "import", "from", "as", "try", "except", "finally", "raise", "assert", "global", "True", "False"]
 digitos = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9]
-simbolos = ["!", "@", "#", "$", "%", "&", "*", "(", ")", "-", "+", "=", "{", "}", "[", "]", "|", ":", ";", "'", "\"", "<", ">", ",", ".", "?", "/", "~", "`"]
+simbolos = ['!', '"', '#', '$', '%', '&', "'", '(', ')', '*', '+', ',', '-', '.', '/', ':', ';', '<', '=', '>', '?', '@', '[', '\\', ']', '^', '_', '`', '{', '|', '}', '~']
 
+ult_caractere_espaco = False 
 
 for i in range(len(conteudo)):
     
-    caractere = conteudo[i]
-    print(estado)
+    caractere = conteudo[i]   
+    
+    if caractere == ' ' or caractere == '\n':
+        if ult_caractere_espaco:
+            continue
+        ult_caractere_espaco = True
+        if token:
+            tokens.append(token)
+            token = ""
+        continue
+
+    ult_caractere_espaco = False
+    
+
     if estado == 1:
         if caractere.isalpha():
             estado = 2
@@ -29,8 +46,10 @@ for i in range(len(conteudo)):
             estado = 12
             token += caractere
         elif caractere in simbolos:
-            estado = 13
             token += caractere
+            tokens.append(token)
+            token = ""
+            continue
         elif caractere == '>':
             estado = 14
             token += caractere
@@ -48,8 +67,12 @@ for i in range(len(conteudo)):
             token += caractere
         else:
             print(token)
-            estado = 1
+            tokens.append(token)
             token = ""
+            token += caractere
+            tokens.append(token)
+            token = ""
+            estado = 1
     elif estado == 2:
         if caractere == '_':
                 estado = 4
@@ -62,14 +85,19 @@ for i in range(len(conteudo)):
             token += caractere
         else:
             print(token)
+            token += caractere
             estado = 1
-            token = ""
+
     elif estado == 3:
         if caractere.isalpha():
             estado = 3
             token += caractere
         else:
             print(token)
+            tokens.append(token)
+            token = ""
+            token += caractere
+            tokens.append(token)
             token = ""
             estado = 1
     elif estado == 4:
@@ -78,6 +106,10 @@ for i in range(len(conteudo)):
             token += caractere
         else:
             print(token)
+            tokens.append(token)
+            token = ""
+            token += caractere
+            tokens.append(token)
             token = ""
             estado = 1
     elif estado == 5:
@@ -86,6 +118,10 @@ for i in range(len(conteudo)):
             token += caractere
         else: 
             print(token)
+            tokens.append(token)
+            token = ""
+            token += caractere
+            tokens.append(token)
             token = ""
             estado = 1
     elif estado == 6:
@@ -94,6 +130,10 @@ for i in range(len(conteudo)):
             token += caractere
         else:
             print(token)
+            tokens.append(token)
+            token = ""
+            token += caractere
+            tokens.append(token)
             token = ""
             estado = 1
     elif estado == 7:
@@ -102,6 +142,10 @@ for i in range(len(conteudo)):
             token += caractere
         else:
             print(token)
+            tokens.append(token)
+            token = ""
+            token += caractere
+            tokens.append(token)
             token = ""
             estado = 1
     elif estado == 7:
@@ -110,6 +154,10 @@ for i in range(len(conteudo)):
             token += caractere
         else:
             print(token)
+            tokens.append(token)
+            token = ""
+            token += caractere
+            tokens.append(token)
             token = ""
             estado = 1
     elif estado == 8:
@@ -120,6 +168,10 @@ for i in range(len(conteudo)):
             estado = 9
         else:
             print(token)
+            tokens.append(token)
+            token = ""
+            token += caractere
+            tokens.append(token)
             token = ""
             estado = 1
     elif estado == 10:
@@ -128,14 +180,25 @@ for i in range(len(conteudo)):
             token += caractere
         else:
             print(token)
+            tokens.append(token)
+            token = ""
+            token += caractere
+            tokens.append(token)
             token = ""
             estado = 1
     elif estado == 12:
         if caractere.isnumeric():
             estado = 17
             token += caractere
+        elif caractere.isdigit():
+            estado = 17
+            token += caractere
         else:
             print(token)
+            tokens.append(token)
+            token = ""
+            token += caractere
+            tokens.append(token)
             token = ""
             estado = 1
     elif estado == 14:
@@ -144,7 +207,12 @@ for i in range(len(conteudo)):
             token += caractere
         else:
             print(token)
+            tokens.append(token)
             token = ""
+            token += caractere
+            tokens.append(token)
+            token = ""
+            estado = 1
             estado = ''
     elif estado == 17:
         if caractere.isnumeric():
@@ -152,6 +220,10 @@ for i in range(len(conteudo)):
             token += caractere
         else:
             print(token)
+            tokens.append(token)
+            token = ""
+            token += caractere
+            tokens.append(token)
             token = ""
             estado = 1
     elif estado == 17:
@@ -160,6 +232,10 @@ for i in range(len(conteudo)):
             token += caractere
         else:
             print(token)
+            tokens.append(token)
+            token = ""
+            token += caractere
+            tokens.append(token)
             token = ""
             estado = 1
     elif estado == 16:
@@ -168,6 +244,10 @@ for i in range(len(conteudo)):
             token += caractere
         else:
             print(token)
+            tokens.append(token)
+            token = ""
+            token += caractere
+            tokens.append(token)
             token = ""
             estado = 1
     elif estado == 15:
@@ -176,6 +256,10 @@ for i in range(len(conteudo)):
             token += caractere
         else:
             print(token)
+            tokens.append(token)
+            token = ""
+            token += caractere
+            tokens.append(token)
             token = ""
             estado = 1
     elif estado == 20:
@@ -184,7 +268,11 @@ for i in range(len(conteudo)):
             token += caractere
         else:
             print(token)
-            token = ''
+            tokens.append(token)
+            token = ""
+            token += caractere
+            tokens.append(token)
+            token = ""
             estado = 1
     elif estado == 19:
         if caractere == '\n':
@@ -192,7 +280,11 @@ for i in range(len(conteudo)):
             token += caractere
         else:
             print(token)
-            token = ''
+            tokens.append(token)
+            token = ""
+            token += caractere
+            tokens.append(token)
+            token = ""
             estado = 1
     elif estado == 21:
         if caractere == '*':
@@ -200,10 +292,14 @@ for i in range(len(conteudo)):
             token += caractere
         else:
             print(token)
-            token = ''
+            tokens.append(token)
+            token = ""
+            token += caractere
+            tokens.append(token)
+            token = ""
             estado = 1
     elif estado == 22:
-        if caractere in simbolos:
+        if caractere in simbolos_outros:
             estado = 22
             token += caractere
         elif caractere == '*':
@@ -211,18 +307,26 @@ for i in range(len(conteudo)):
             token += caractere
         else:
             print(token)
-            token = ''
+            tokens.append(token)
+            token = ""
+            token += caractere
+            tokens.append(token)
+            token = ""
             estado = 1
     elif estado == 23:
         if caractere == '*':
             estado = 24
             token += caractere
-        elif caractere in simbolos:
+        elif caractere in simbolos_outros:
             estado = 22
             token += caractere
         else:
             print(token)
-            token = ''
+            tokens.append(token)
+            token = ""
+            token += caractere
+            tokens.append(token)
+            token = ""
             estado = 1
     elif estado == 25:
         if caractere == '/':
@@ -230,38 +334,61 @@ for i in range(len(conteudo)):
             token += caractere
         else:
             print(token)
-            token = ''
+            tokens.append(token)
+            token = ""
+            token += caractere
+            tokens.append(token)
+            token = ""
             estado = 1
     elif estado == 26:
         if caractere == '/':
             estado = 27
             token += caractere
-        if caractere in simbolos:
+        if caractere in simbolos_outros:
             estado = 26
             token += caractere
         else:
             print(token)
-            token = ''
+            tokens.append(token)
+            token = ""
+            token += caractere
+            tokens.append(token)
+            token = ""
             estado = 1
     elif estado == 27:
         if caractere == '/':
             estado = 28
             token += caractere
-        elif caractere in simbolos:
+        elif caractere in simbolos_outros:
             estado = 26
             token += caractere
         else:
             print(token)
-            token = ''
+            tokens.append(token)
+            token = ""
+            token += caractere
+            tokens.append(token)
+            token = ""
             estado = 1
-
 if estado in [2, 3, 5, 7, 8, 9, 10, 11, 12, 13, 14, 15, 17, 18, 24, 28]:
     tokens.append(token)
     #print(estado)
-    print(tokens)
+    #print(tokens)
   
 else:
     print(estado)
-    print("token nao formado")
-
-#print(tokens)
+    #token += caractere
+    #tokens.append(token)
+print(tokens)
+for token in tokens:
+    if simbolo in simbolos:
+        if token == simbolo :
+            print(f"SIMBOLO: {token}")
+    elif digito in digitos:
+        if token == digito:
+            print(f"DIGITO: {token}")
+    elif pl in palavras_reservadas:
+        if token == pl:
+            print(f"PL: {token}")
+    else:
+        print(f"ID: {token}")
